@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Etkinlik Ekle</title>
+</head>
+<body>
+
+    <header>
+        <h1>Etkinlik Ekle
+        </h1>
+    
+
+    <nav>
+        <a href="index.html">Ana Sayfa</a>
+        <a href="etkinlikler.html">Etkinlikler</a>
+        <a href="etkinlik-detay.html">Detay</a>
+        <a href="etkinlik-ekle.html">Ekle</a>
+    </nav>
+    </header>
+
+    <main>
+        
+        
+        <form>
+            <div>
+                <label for="ad">Etkinlik Adı</label><br>
+                <input type="text" id="ad" name="ad" required>
+            </div>
+            <br>
+            <div>
+                <label for="kategori">Kategori</label><br>
+                <select id="kategori" name="kategori" required>
+                    <option value="seminer">Seminer -</option>
+                </select>
+            </div>
+            <br>
+            <div>
+                <label for="tarih">Tarih / Saat</label><br>
+                <input type="datetime-local" id="tarih" name="tarih" required>
+            </div>
+            <br>
+            <div>
+                <label for="aciklama">Açıklama</label><br>
+                <textarea id="aciklama" name="aciklama" rows="3" cols="30" required></textarea>
+            </div>
+            <br>
+            <button type="submit">Kaydet</button>
+        </form>
+    </main>
+
+    <footer>
+        <p>Gülsüm Arıcan - 2416501834 - 2026</p>
+    </footer>
+
+</body>
+</html>
