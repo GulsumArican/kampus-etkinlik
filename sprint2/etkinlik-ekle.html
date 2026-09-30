@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Etkinlik Ekle</title>
+    <link rel="stylesheet" href="2416501834.css">
+</head>
+<body>
+    <header>
+        <h1>Etkinlik Ekle</h1>
+    </header>
+    <nav>
+        <a href="index.html">Ana Sayfa</a>
+        <a href="etkinlikler.html">Etkinlikler</a>
+        <a href="etkinlik-ekle.html">Ekle</a>
+        <a href="etkinlik-guncelle.html">Güncelle</a>
+    </nav>
+    <main>
+        <form>
+            <div class="form-grup">
+                <label for="ad">Etkinlik adı:</label>
+                <input type="text" id="ad" name="ad" required>
+            </div>
+            <div class="form-grup">
+                <label for="kategori">Kategori:</label>
+                <select id="kategori" name="kategori" required>
+                    <option value="">Seçiniz -</option>
+                    <option value="seminer">Seminer</option>
+                </select>
+            </div>
+            <div class="form-grup">
+                <label for="tarih">Tarih:</label>
+                <!-- required sayesinde boş bırakılırsa CSS kırmızı çerçeve yapacak -->
+                <input type="datetime-local" id="tarih" name="tarih" required>
+            </div>
+            <div class="form-grup">
+                <label for="aciklama">Açıklama:</label>
+                <textarea id="aciklama" name="aciklama" rows="3" required></textarea>
+            </div>
+            <button type="submit">Kaydet</button>
+        </form>
+    </main>
+    <footer>
+        <p>Gülsüm Arıcan - 2416501834 - 2026</p>
+    </footer>
+</body>
+</html>

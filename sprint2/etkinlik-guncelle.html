@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Etkinlik Güncelle</title>
+    <link rel="stylesheet" href="2416501834.css">
+</head>
+<body>
+    <header>
+        <h1>Etkinlik Güncelle</h1>
+    </header>
+    <nav>
+        <a href="index.html">Ana Sayfa</a>
+        <a href="etkinlikler.html">Etkinlikler</a>
+        <a href="etkinlik-ekle.html">Ekle</a>
+        <a href="etkinlik-guncelle.html">Güncelle</a>
+    </nav>
+    <main>
+        <form>
+            <div class="form-grup">
+                <label for="ad">Etkinlik adı:</label>
+                <input type="text" id="ad" name="ad" value="Kariyer Günleri 2026" required>
+            </div>
+            <div class="form-grup">
+                <label for="kategori">Kategori:</label>
+                <select id="kategori" name="kategori" required>
+                    <option value="seminer" selected>Seminer -</option>
+                </select>
+            </div>
+            <div class="form-grup">
+                <label for="tarih">Tarih:</label>
+                <input type="datetime-local" id="tarih" name="tarih" value="2026-10-12T14:00" required>
+            </div>
+            <div class="form-grup">
+                <label for="aciklama">Açıklama:</label>
+                <textarea id="aciklama" name="aciklama" rows="3" required>Mezun söyleşileri</textarea>
+            </div>
+            <button type="submit">Güncelle</button>
+        </form>
+    </main>
+    <footer>
+        <p>Gülsüm Arıcan - 2416501834 - 2026</p>
+    </footer>
+</body>
+</html>
