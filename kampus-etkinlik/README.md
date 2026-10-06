@@ -5,6 +5,13 @@
 ## Proje Hakkında
 Bu proje, kampüs içerisindeki akademik, sosyal ve kültürel etkinliklerin tek bir platform üzerinden kolayca takip edilmesini ve yönetilmesini sağlayan web tabanlı bir uygulamadır.
 
+## Sprint 2 Geliştirme Notları (CSS ve Responsive)
+* Sprint 1'de oluşturulan semantik HTML yapısı tamamen korunarak sayfalara CSS giydirilmiştir.
+* Öğrenci numarasına (2416501834) özel kurallar uygulanmış, ana renk `hsl(2416501834, 65%, 38%)` ve yazı tipi `Georgia` olarak belirlenmiştir.
+* Mobil öncelikli (Mobile First) yaklaşım kullanılarak medya sorguları (`@media`) ile responsive tasarım yapılmıştır. Geniş ekranlarda kartlar yan yana, mobil ekranlarda alt alta dizilmektedir.
+* Tablo yapısı terk edilerek etkinlikler modern kart (`<article>`) görünümüne taşınmıştır.
+* Etkinlik detay sayfasında afiş ve künye bilgileri için grid yapısı kullanılarak düzenli bir mizanpaj oluşturulmuştur.
+
 ## Sprint 1 Geliştirme Notları
 Bu sprint kapsamında uygulamanın temel iskeleti sadece **HTML5** kullanılarak inşa edilmiştir. Projede henüz CSS (tasarım/renklendirme) ve JavaScript (dinamik etkileşim) kullanılmamıştır. 
 
