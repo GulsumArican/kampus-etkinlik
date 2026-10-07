@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tüm Etkinlikler</title>
+    <link rel="stylesheet" href="2416501834.css">
+</head>
+<body>
+    <header>
+        <h1>Kampüs Etkinlikleri</h1>
+    </header>
+    <nav>
+        <a href="index.html">Ana Sayfa</a>
+        <a href="etkinlikler.html">Etkinlikler</a>
+        <a href="etkinlik-ekle.html">Ekle</a>
+        
+    </nav>
+    <main>
+        <h2>Tüm Etkinlikler</h2>
+        <!-- Tablo kalktı, kartlar eklendi -->
+         <form id="filtre-formu" class="filtre">
+    <label for="arama">Etkinlik ara:</label>
+    <input type="search" id="arama" placeholder="Kelime yazın...">
+    
+    <label for="kategori-filtre">Kategori:</label>
+    <select id="kategori-filtre">
+        <option value="Tümü">Tümü</option>
+    </select>
+    
+    <p id="sonuc"></p>
+</form>
+        <section id="etkinlik-listesi" class="kartlar"></section>
+           
+        </section>
+    </main>
+    <footer>
+        <p>Gülsüm Arıcan - 2416501834 - 2026</p>
+    </footer>
+    <script type="module" src="js/event-list.js"></script>
+</body>
+</html>
