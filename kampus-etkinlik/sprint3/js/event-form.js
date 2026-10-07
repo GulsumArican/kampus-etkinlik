@@ -1,52 +1,44 @@
-// Verileri içeri aktarıyoruz
 import { events } from "./data.js";
 
 const form = document.querySelector("#etkinlik-formu");
 const hataMesaji = document.querySelector("#hata-mesaji");
 
 if (form) {
-    // --- ADIM 11: GÜNCELLEME SAYFASINDA FORMU DOLDUR VEYA GİZLE ---
+    // --- GÜNCELLEME SAYFASIYSA ESKİ VERİLERİ GETİR ---
     if (form.dataset.mode === "guncelle") {
-        // Adres çubuğundaki id'yi yakala
         const urlParams = new URLSearchParams(window.location.search);
         const id = urlParams.get("id");
-        
-        // data.js içinden bu id'ye sahip etkinliği bul
         const etkinlik = events.find(e => e.id === id);
 
         if (etkinlik) {
-            // Etkinlik bulunduysa eski bilgileri form inputlarına yazdır
-            if (form.elements["ad"]) form.elements["ad"].value = etkinlik.title;
-            if (form.elements["kategori"]) form.elements["kategori"].value = etkinlik.category;
-            if (form.elements["yer"]) form.elements["yer"].value = etkinlik.location;
-            if (form.elements["kontenjan"]) form.elements["kontenjan"].value = etkinlik.capacity;
-            
-            // Tarih ve Saat inputları (Tek veya ayrı kullanmış olabilirsin, ikisini de kapsar)
-            if (form.elements["tarih-saat"]) form.elements["tarih-saat"].value = etkinlik.date + "T" + etkinlik.time;
-            if (form.elements["tarih"]) form.elements["tarih"].value = etkinlik.date;
-            if (form.elements["saat"]) form.elements["saat"].value = etkinlik.time;
-            
+            form.elements["ad"].value = etkinlik.title;
+            form.elements["kategori"].value = etkinlik.category;
+            form.elements["tarih"].value = etkinlik.date;
+            form.elements["saat"].value = etkinlik.time;
+            form.elements["yer"].value = etkinlik.location;
+            form.elements["kontenjan"].value = etkinlik.capacity;
         } else {
-            // Etkinlik bulunamadıysa formu tamamen silip yerine hata mesajı koy
             form.outerHTML = `
                 <div style="color: red; border: 1px solid red; padding: 20px; border-radius: 8px;">
                     <h2>Geçersiz veya Eksik ID</h2>
-                    <p>Güncellenecek kayıt bulunamadı. Hatalı bir adrese girmiş olabilirsiniz.</p>
+                    <p>Güncellenecek kayıt bulunamadı.</p>
                     <a href="etkinlikler.html" style="font-weight: bold; color: inherit;">← Listeye Dön</a>
                 </div>
             `;
         }
     }
-    // -------------------------------------------------------------
 
-    // Form Gönderme (Submit) İşlemi
+    // --- FORM KAYDETME/GÖNDERME İŞLEMİ ---
     form.addEventListener("submit", (e) => {
         e.preventDefault();
 
+        // Formdaki bilgileri al
         const formData = new FormData(form);
         const data = {
             title: formData.get("ad"),
             category: formData.get("kategori"),
+            date: formData.get("tarih"),
+            time: formData.get("saat"),
             location: formData.get("yer"),
             capacity: formData.get("kontenjan")
         };
@@ -54,22 +46,19 @@ if (form) {
         let errors = 0;
         if (hataMesaji) hataMesaji.textContent = "";
 
+        // Doğrulama (Ad 3 karakterden az olamaz)
         const adAlani = document.querySelector("#ad"); 
-        
-        // Ad 3 karakter kontrolü
-        if (data.title && data.title.length < 3) {
+        if (data.title.length < 3) {
             errors++;
             if (hataMesaji) hataMesaji.textContent = "Hata: Etkinlik adı en az 3 karakter olmalı!";
-            if (adAlani) adAlani.setAttribute("aria-invalid", "true");
+            if (adAlani) adAlani.style.border = "2px solid red"; // Hata varsa çerçeve kırmızı olsun
         } else {
-            if (adAlani) adAlani.removeAttribute("aria-invalid");
+            if (adAlani) adAlani.style.border = "1px solid #ccc";
         }
 
-        // Hata yoksa işlemi onayla
+        // Hata yoksa ekrana başarı mesajını ve girilen bilgileri yazdır
         if (errors === 0) {
-            // Güncelleme sayfasıysa mesajı "Güncelleme Başarılı!" yap
             const baslik = form.dataset.mode === "guncelle" ? "Güncelleme Başarılı!" : "Başarılı!";
-            
             form.innerHTML += `
                 <div style="background-color: #e8f5e9; padding: 15px; margin-top: 20px; border-radius: 8px;">
                     <h3 style="color: #2e7d32; margin-top: 0;">${baslik}</h3>

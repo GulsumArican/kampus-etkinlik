@@ -17,30 +17,35 @@
         
     </nav>
     <main>
-        <form id="etkinlik-formu" action="...">
-            <div class="form-grup">
-                <label for="ad">Etkinlik adı:</label>
-                <input type="text" id="ad" name="ad" required>
-            </div>
-            <div class="form-grup">
-                <label for="kategori">Kategori:</label>
-                <select id="kategori" name="kategori" required>
-                    <option value="">Seçiniz -</option>
-                    <option value="seminer">Seminer</option>
-                </select>
-            </div>
-            <div class="form-grup">
-                <label for="tarih">Tarih:</label>
-                <!-- required sayesinde boş bırakılırsa CSS kırmızı çerçeve yapacak -->
-                <input type="datetime-local" id="tarih" name="tarih" required>
-            </div>
-            <div class="form-grup">
-                <label for="aciklama">Açıklama:</label>
-                <textarea id="aciklama" name="aciklama" rows="3" required></textarea>
-            </div>
-            <button type="submit">Kaydet</button>
+    <form id="etkinlik-formu">
+    <label for="ad">Etkinlik Adı*</label><br>
+    <input type="text" id="ad" name="ad" required style="width: 100%; margin-bottom: 15px; padding: 8px;"><br>
+
+    <label for="kategori">Kategori*</label><br>
+    <select id="kategori" name="kategori" required style="width: 100%; margin-bottom: 15px; padding: 8px;">
+        <option value="">Seçiniz -</option>
+        <option value="Seminer">Seminer</option>
+        <option value="Atölye">Atölye</option>
+        <option value="Sosyal">Sosyal</option>
+    </select><br>
+
+    <label for="tarih">Tarih*</label><br>
+    <input type="date" id="tarih" name="tarih" required style="width: 100%; margin-bottom: 15px; padding: 8px;"><br>
+
+    <label for="saat">Saat*</label><br>
+    <input type="time" id="saat" name="saat" required style="width: 100%; margin-bottom: 15px; padding: 8px;"><br>
+
+    <label for="yer">Yer*</label><br>
+    <input type="text" id="yer" name="yer" required style="width: 100%; margin-bottom: 15px; padding: 8px;"><br>
+
+    <label for="kontenjan">Kontenjan</label><br>
+    <input type="number" id="kontenjan" name="kontenjan" style="width: 100%; margin-bottom: 15px; padding: 8px;"><br>
+
+    <button type="submit" style="background-color: #2e7d32; color: white; padding: 10px 20px; border: none; border-radius: 5px; font-weight: bold; cursor: pointer;">Kaydet</button>
+    <span id="hata-mesaji" style="color: red; font-weight: bold; display: block; margin-top: 10px;"></span>
         </form>
-        <span id="hata-mesaji" style="color: red; font-weight: bold; display: block; margin-bottom: 10px;"></span>
+        
+
     </main>
     <footer>
         <p>Gülsüm Arıcan - 2416501834 - 2026</p>
