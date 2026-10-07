@@ -5,6 +5,15 @@
 ## Proje Hakkında
 Bu proje, kampüs içerisindeki akademik, sosyal ve kültürel etkinliklerin tek bir platform üzerinden kolayca takip edilmesini ve yönetilmesini sağlayan web tabanlı bir uygulamadır.
 
+# Sprint 3 Geliştirme Notları (JavaScript ve DOM)
+- **Canlı Yayın Adresi:** [Buraya Vercel Sprint 3 linkini yapıştır, örn: https://webdersi.vercel.app/sprint3/]
+- Sayfalar dinamik hale getirildi. Veriler tek bir merkezden (`data.js`) çekilerek JavaScript ile HTML'e yazdırıldı.
+- Kategori ve kelime tabanlı çalışan arama/filtreleme özelliği eklendi.
+- URL'den ID okunarak etkinlik detay sayfası dinamik olarak oluşturuldu.
+- Etkinlik ekleme formuna JavaScript ile doğrulama (validation) kuralları eklendi.
+
+---
+
 ## Sprint 2 Geliştirme Notları (CSS ve Responsive)
 * Sprint 1'de oluşturulan semantik HTML yapısı tamamen korunarak sayfalara CSS giydirilmiştir.
 * Öğrenci numarasına (2416501834) özel kurallar uygulanmış, ana renk `hsl(2416501834, 65%, 38%)` ve yazı tipi `Georgia` olarak belirlenmiştir.
