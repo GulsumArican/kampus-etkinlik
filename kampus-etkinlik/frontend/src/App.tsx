@@ -88,8 +88,7 @@ function App() {
                   padding: '8px 16px',
                   borderRadius: '4px',
                   textDecoration: 'none',
-                  // Aktif buton yazısı üst alanın rengiyle birebir aynı ton oldu
-                  color: page === item.id ? '#b57c1e' : '#fff',
+                  color: page === item.id ? '#5c3a21' : '#fff',
                   backgroundColor: page === item.id ? '#fff' : 'rgba(255, 255, 255, 0.15)',
                   fontWeight: 'bold',
                   border: '1px solid rgba(255,255,255,0.4)'
@@ -140,7 +139,7 @@ function App() {
                 </select>
               </div>
             </div>
-            <p style={{ fontWeight: 'bold', color: '#b57c1e', marginBottom: '15px' }}>
+            <p style={{ fontWeight: 'bold', color: '#5c3a21', marginBottom: '15px' }}>
               {filteredEvents.length === 0 ? "Aradığınız kriterlere uygun etkinlik bulunamadı." : `${filteredEvents.length} etkinlik listeleniyor.`}
             </p>
             {filteredEvents.map(renderCard)}
@@ -159,7 +158,7 @@ function App() {
              
              {selected && (
                 <article className="detay" style={{ backgroundColor: '#fff', padding: '30px', borderRadius: '8px', border: '1px solid #ddd' }}>
-                  <h2 style={{ fontSize: '32px', color: '#b57c1e', marginBottom: '20px' }}>{selected.title}</h2>
+                  <h2 style={{ fontSize: '32px', color: '#5c3a21', marginBottom: '20px' }}>{selected.title}</h2>
                   
                   {selected.image && (
                     <figure style={{ marginBottom: '20px' }}>
@@ -182,7 +181,7 @@ function App() {
 
                   <div style={{ display: 'flex', gap: '15px' }}>
                     <button onClick={() => go("events")} style={{ padding: '10px 20px', backgroundColor: '#e2e8f0', color: '#1e293b', border: '1px solid #cbd5e1', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' }}>← Listeye dön</button>
-                    <button onClick={() => go("update", selected.id)} style={{ padding: '10px 20px', backgroundColor: '#b57c1e', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' }}>Bu etkinliği güncelle</button>
+                    <button onClick={() => go("update", selected.id)} style={{ padding: '10px 20px', backgroundColor: '#5c3a21', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' }}>Bu etkinliği güncelle</button>
                   </div>
                 </article>
              )}
@@ -191,7 +190,7 @@ function App() {
 
         {(page === "add" || page === "update") && (
           <section>
-            <h2 style={{ fontSize: '32px', color: '#b57c1e', marginBottom: '10px' }}>
+            <h2 style={{ fontSize: '32px', color: '#5c3a21', marginBottom: '10px' }}>
               {page === "add" ? "Etkinlik Ekle" : "Etkinlik Güncelle"}
             </h2>
             <p style={{ color: '#666', marginBottom: '30px' }}>Bu sprintte form sadece görünüm; kayıt yapılmaz.</p>
@@ -243,7 +242,7 @@ function App() {
                 <textarea id="description" rows={5} style={{ width: '100%', padding: '10px', borderRadius: '4px', border: '1px solid #ccc' }}></textarea>
               </div>
 
-              <button type="submit" style={{ padding: '12px 24px', backgroundColor: '#b57c1e', color: '#fff', border: 'none', borderRadius: '4px', fontSize: '16px', cursor: 'pointer', width: '100%', fontWeight: 'bold' }}>
+              <button type="submit" style={{ padding: '12px 24px', backgroundColor: '#5c3a21', color: '#fff', border: 'none', borderRadius: '4px', fontSize: '16px', cursor: 'pointer', width: '100%', fontWeight: 'bold' }}>
                 {page === "add" ? "Etkinliği Ekle" : "Değişiklikleri Kaydet"}
               </button>
             </form>
