@@ -1,0 +1,189 @@
+:root {
+    --no: 2416501834;
+    --renk-ana: hsl(var(--no), 65%, 38%);
+    --renk-zemin: hsl(var(--no), 33%, 97%);
+    --font: "Georgia", serif;
+    --bosluk: 1rem;
+    --kose: 8px;
+}
+
+body {
+    font-family: var(--font);
+    margin: 0;
+    padding: 0;
+    background-color: var(--renk-zemin);
+    color: #333;
+}
+
+header {
+    background-color: var(--renk-ana);
+    color: white;
+    padding: var(--bosluk);
+}
+
+header h1 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+nav {
+    background-color: var(--renk-ana);
+    padding: 0.5rem var(--bosluk) var(--bosluk) var(--bosluk);
+    display: flex;
+    gap: var(--bosluk);
+    flex-wrap: wrap;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+main {
+    padding: var(--bosluk);
+}
+
+footer {
+    text-align: left;
+    padding: var(--bosluk);
+    font-size: 0.9rem;
+    color: #666;
+}
+
+/* Tablodan Karta Geçiş (Mobil Uyumlu) */
+.kartlar {
+    display: flex;
+    flex-direction: column;
+    gap: var(--bosluk);
+}
+
+.kart {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: var(--kose);
+    padding: var(--bosluk);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.kart h3 {
+    margin-top: 0;
+    color: var(--renk-ana);
+    font-size: 1.1rem;
+}
+
+.kart a {
+    color: var(--renk-ana);
+    text-decoration: none;
+    font-weight: bold;
+    display: inline-block;
+    margin-top: 0.5rem;
+}
+
+/* Detay Sayfası Tasarımı */
+.detay-konteyner {
+    background-color: white;
+    border-radius: var(--kose);
+    padding: var(--bosluk);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    gap: var(--bosluk);
+}
+
+.detay-konteyner figure {
+    margin: 0;
+}
+
+.detay-konteyner img {
+    max-width: 100%;
+    height: auto;
+    background-color: #a3cda1;
+    border-radius: var(--kose);
+}
+
+.detay-konteyner dl {
+    margin: 0;
+    background-color: var(--renk-zemin);
+    padding: 1rem;
+    border-radius: var(--kose);
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: 0.8rem;
+}
+
+.detay-konteyner dt {
+    font-weight: bold;
+    margin: 0;
+    color: var(--renk-ana);
+}
+
+.detay-konteyner dd {
+    margin: 0;
+    font-size: 0.95rem;
+}
+
+/* Form Tasarımları */
+form {
+    background-color: white;
+    padding: var(--bosluk);
+    border-radius: var(--kose);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.form-grup {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+label {
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+input, select, textarea {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-family: var(--font);
+}
+
+/* Hatalı (boş bırakılmış) form alanları için kırmızı çerçeve kuralı */
+input:invalid, select:invalid, textarea:invalid {
+    border: 1.5px solid red;
+}
+
+button {
+    background-color: var(--renk-ana);
+    color: white;
+    border: none;
+    padding: 0.8rem;
+    border-radius: var(--kose);
+    cursor: pointer;
+    font-family: var(--font);
+    font-weight: bold;
+}
+
+/* Masaüstü (Geniş Ekran) Görünümü Kuralı */
+@media (min-width: 768px) {
+    .kartlar {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    .kart {
+        flex: 1 1 calc(33.333% - var(--bosluk));
+    }
+    .detay-konteyner {
+        flex-direction: row;
+    }
+    .detay-konteyner figure {
+        flex: 1;
+    }
+    .detay-konteyner dl {
+        flex: 2;
+    }
+}
