@@ -187,3 +187,6 @@ button {
         flex: 2;
     }
 }
+header.site-baslik {
+  background-color: #b57c1e !important;
+}
