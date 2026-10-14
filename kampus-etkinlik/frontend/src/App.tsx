@@ -17,16 +17,13 @@ function App() {
   function go(next: PageName, id: string | null = null) {
     setPage(next);
     setSelectedId(id);
+    window.scrollTo(0, 0);
   }
 
   const filteredEvents = filterByCategory(searchEvents(events, searchText), category);
   const categories = [...new Set(events.map(e => e.category))];
-  
-  // ADIM 12: Seçili etkinliği buluyoruz (Eğer sayfa "detail" ise bu bize lazım olacak)
   const selected = selectedId ? findEventById(events, selectedId) : undefined;
 
-  // ADIM 11: Side Effect (Sekme Başlığını Değiştirme)
-  // Sayfa değiştikçe veya detay sayfasında seçili etkinlik değiştikçe tarayıcının sekme adı güncellenecek
   useEffect(() => {
     if (page === "detail" && selected) {
       document.title = `Kampüs Etkinlikleri — ${selected.title}`;
@@ -76,7 +73,7 @@ function App() {
       </header>
 
       <nav className="menu">
-        <ul>
+        <ul style={{ display: 'flex', listStyle: 'none', gap: '10px', padding: 0, margin: 0 }}>
           {menuItems.map((item) => (
             <li key={item.id}>
               <a
@@ -85,6 +82,16 @@ function App() {
                 onClick={(e) => {
                   e.preventDefault();
                   go(item.id);
+                }}
+                style={{
+                  display: 'inline-block',
+                  padding: '8px 16px',
+                  borderRadius: '4px',
+                  textDecoration: 'none',
+                  color: page === item.id ? '#2e7d32' : '#fff',
+                  backgroundColor: page === item.id ? '#fff' : 'transparent',
+                  fontWeight: 'bold',
+                  border: '1px solid rgba(255,255,255,0.3)'
                 }}
               >
                 {item.label}
@@ -139,7 +146,6 @@ function App() {
           </section>
         )}
 
-        {/* ADIM 12: DETAY SAYFASI */}
         {page === "detail" && (
           <section>
              {!selected && (
@@ -154,7 +160,6 @@ function App() {
                 <article className="detay" style={{ backgroundColor: '#fff', padding: '30px', borderRadius: '8px', border: '1px solid #ddd' }}>
                   <h2 style={{ fontSize: '32px', color: '#2e7d32', marginBottom: '20px' }}>{selected.title}</h2>
                   
-                  {/* Afiş sadece varsa görünür */}
                   {selected.image && (
                     <figure style={{ marginBottom: '20px' }}>
                       <img src={selected.image} alt={`${selected.title} afişi`} style={{ maxWidth: '100%', height: 'auto', borderRadius: '4px' }} />
@@ -175,15 +180,14 @@ function App() {
                   </div>
 
                   <div style={{ display: 'flex', gap: '15px' }}>
-                    <button onClick={() => go("events")} style={{ padding: '10px 20px', backgroundColor: '#f1f1f1', border: '1px solid #ccc', borderRadius: '4px', cursor: 'pointer' }}>← Listeye dön</button>
-                    <button onClick={() => go("update", selected.id)} style={{ padding: '10px 20px', backgroundColor: '#2e7d32', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>Bu etkinliği güncelle</button>
+                    <button onClick={() => go("events")} style={{ padding: '10px 20px', backgroundColor: '#e2e8f0', color: '#1e293b', border: '1px solid #cbd5e1', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' }}>← Listeye dön</button>
+                    <button onClick={() => go("update", selected.id)} style={{ padding: '10px 20px', backgroundColor: '#2e7d32', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' }}>Bu etkinliği güncelle</button>
                   </div>
                 </article>
              )}
           </section>
         )}
 
-        {/* ADIM 13: EKLE VE GÜNCELLE FORMLARI */}
         {(page === "add" || page === "update") && (
           <section>
             <h2 style={{ fontSize: '32px', color: '#2e7d32', marginBottom: '10px' }}>
@@ -238,7 +242,7 @@ function App() {
                 <textarea id="description" rows={5} style={{ width: '100%', padding: '10px', borderRadius: '4px', border: '1px solid #ccc' }}></textarea>
               </div>
 
-              <button type="submit" style={{ padding: '12px 24px', backgroundColor: '#2e7d32', color: '#fff', border: 'none', borderRadius: '4px', fontSize: '16px', cursor: 'pointer', width: '100%' }}>
+              <button type="submit" style={{ padding: '12px 24px', backgroundColor: '#2e7d32', color: '#fff', border: 'none', borderRadius: '4px', fontSize: '16px', cursor: 'pointer', width: '100%', fontWeight: 'bold' }}>
                 {page === "add" ? "Etkinliği Ekle" : "Değişiklikleri Kaydet"}
               </button>
             </form>
