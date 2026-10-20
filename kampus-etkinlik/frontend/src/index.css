@@ -1,1 +1,17 @@
+:root {
+  --no: 2416501834;
+  --ton: calc(var(--no) % 360);
+  --renk-ana: hsl(var(--ton), 65%, 38%);
+  --renk-zemin: hsl(var(--ton), 30%, 97%);
+  --font: Georgia, serif;
+  --bosluk-m: 1rem;
+  --kose: 8px;
+}
 
+body {
+  font-family: var(--font);
+  background-color: var(--renk-zemin);
+  color: #222;
+  margin: 0;
+  padding: 0;
+}

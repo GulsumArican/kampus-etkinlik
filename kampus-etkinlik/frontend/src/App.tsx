@@ -1,260 +1,227 @@
-import { useState, useEffect } from "react";
-import "./App.css";
+import React, { useState } from 'react';
+import './App.css';
 
-import { events } from "./data/events";
-import type { CampusEvent, Category } from "./types/campus-event";
-import { searchEvents, filterByCategory, findEventById } from "./utils/filter-events";
+// Örnek Veri Yapısı (Sprint 4 Standartlarına Uygun)
+interface EventItem {
+  id: number;
+  title: string;
+  category: string;
+  date: string;
+  time: string;
+  location: string;
+  capacity: number;
+  description: string;
+  image?: string;
+}
 
-type PageName = "home" | "events" | "add" | "detail" | "update";
-
-function App() {
-  const [page, setPage] = useState<PageName>("home");
-  const [selectedId, setSelectedId] = useState<string | null>(null);
-
-  const [searchText, setSearchText] = useState("");
-  const [category, setCategory] = useState<Category | "">("");
-
-  function go(next: PageName, id: string | null = null) {
-    setPage(next);
-    setSelectedId(id);
-    window.scrollTo(0, 0);
+const initialEvents: EventItem[] = [
+  {
+    id: 1,
+    title: "Kariyer Günleri 2026",
+    category: "Seminer",
+    date: "2026-10-12",
+    time: "14:00",
+    location: "A Blok Konferans Salonu",
+    capacity: 100,
+    description: "Mezunlarla kariyer söyleşileri ve şirket standları."
+  },
+  {
+    id: 2,
+    title: "Robotik Atölyesi",
+    category: "Atölye",
+    date: "2026-10-20",
+    time: "10:00",
+    location: "Bilgisayar Laboratuvarı 2",
+    capacity: 20,
+    description: "Arduino ile çizgi izleyen robot yapımı, başlangıç seviyesi."
   }
+];
 
-  const filteredEvents = filterByCategory(searchEvents(events, searchText), category);
-  const categories = [...new Set(events.map(e => e.category))];
-  const selected = selectedId ? findEventById(events, selectedId) : undefined;
+export default function App() {
+  const [page, setPage] = useState<string>("home");
+  const [selectedId, setSelectedId] = useState<number | null>(null);
+  const [searchText, setSearchText] = useState<string>("");
+  const [category, setCategory] = useState<string>("");
 
-  useEffect(() => {
-    if (page === "detail" && selected) {
-      document.title = `Kampüs Etkinlikleri — ${selected.title}`;
-    } else {
-      document.title = "Kampüs Etkinlikleri";
+  const categories = ["Seminer", "Atölye", "Söyleşi", "Yarışma"];
+
+  // Sayfa değiştirme fonksiyonu
+  const go = (targetPage: string, id?: number) => {
+    if (id !== undefined) {
+      setSelectedId(id);
     }
-  }, [page, selected]);
+    setPage(targetPage);
+    window.scrollTo(0, 0);
+  };
 
-  const menuItems: { id: PageName; label: string }[] = [
-    { id: "home", label: "Ana Sayfa" },
-    { id: "events", label: "Etkinlikler" },
-    { id: "add", label: "Ekle" },
-  ];
+  const selectedEvent = initialEvents.find(e => e.id === selectedId);
 
-  const upcoming = [...events]
-    .sort((a, b) => a.date.localeCompare(b.date))
-    .slice(0, 2);
+  // Filtreleme
+  const filteredEvents = initialEvents.filter(e => {
+    const matchesSearch = e.title.toLowerCase().includes(searchText.toLowerCase());
+    const matchesCategory = category === "" || e.category === category;
+    return matchesSearch && matchesCategory;
+  });
 
-  function renderCard(event: CampusEvent) {
-    return (
-      <article className="kart" key={event.id}>
-        <h2>{event.title}</h2>
-        <span className="kategori-etiketi">{event.category}</span>
-        <p>Tarih: {event.date}, {event.time}</p>
-        <p>Yer: {event.location}</p>
-        <p>Kontenjan: {event.capacity} kişi</p>
-        <p>{event.description}</p>
-        <a
-          href="#"
-          className="detay-link"
-          onClick={(e) => {
-            e.preventDefault();
-            go("detail", event.id);
-          }}
-        >
-          Detayları gör
-        </a>
-      </article>
-    );
-  }
+  const renderCard = (item: EventItem) => (
+    <article key={item.id} className="kart" style={{ marginBottom: '20px', border: '1px solid #ddd', padding: '20px', borderRadius: '8px', background: '#fff' }}>
+      <h3 style={{ marginBottom: '10px', color: 'var(--renk-ana)' }}>{item.title}</h3>
+      <p style={{ marginBottom: '5px' }}><strong>Kategori:</strong> {item.category}</p>
+      <p style={{ marginBottom: '5px' }}><strong>Tarih:</strong> {item.date}, {item.time}</p>
+      <p style={{ marginBottom: '15px' }}><strong>Yer:</strong> {item.location}</p>
+      <button onClick={() => go("detail", item.id)}>Detayları gör</button>
+    </article>
+  );
 
   return (
-    <>
-      <header className="site-baslik">
-        <h1>Kampüs Etkinlikleri</h1>
-        <p>Fakültedeki seminer, atölye ve söyleşileri tek yerden takip edin.</p>
+    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: 'var(--renk-zemin)' }}>
+      {/* Üst Bilgi Alanı */}
+      <header className="site-baslik" style={{ padding: '2rem', textAlign: 'center' }}>
+        <h1 style={{ margin: 0, fontSize: '2rem' }}>Kampüs Etkinlikleri</h1>
+        <p style={{ marginTop: '0.5rem', opacity: 0.9 }}>Fakültedeki seminer, atölye ve söyleşileri tek yerden takip edin.</p>
       </header>
 
-      <nav className="menu">
-        <ul style={{ display: 'flex', listStyle: 'none', gap: '10px', padding: 0, margin: 0 }}>
-          {menuItems.map((item) => (
-            <li key={item.id}>
-              <a
-                href="#"
-                aria-current={page === item.id ? "page" : undefined}
-                onClick={(e) => {
-                  e.preventDefault();
-                  go(item.id);
-                }}
-                style={{
-                  display: 'inline-block',
-                  padding: '8px 16px',
-                  borderRadius: '4px',
-                  textDecoration: 'none',
-                  color: page === item.id ? '#5c3a21' : '#fff',
-                  backgroundColor: page === item.id ? '#fff' : 'rgba(255, 255, 255, 0.15)',
-                  fontWeight: 'bold',
-                  border: '1px solid rgba(255,255,255,0.4)'
-                }}
-              >
-                {item.label}
-              </a>
-            </li>
-          ))}
-        </ul>
+      {/* Menü Navigasyonu */}
+      <nav style={{ display: 'flex', gap: '10px', padding: '1rem 2rem', background: 'rgba(0,0,0,0.03)', borderBottom: '1px solid #ddd' }}>
+        <button onClick={() => go("home")} style={{ fontWeight: page === "home" ? 'bold' : 'normal' }}>Ana Sayfa</button>
+        <button onClick={() => go("events")} style={{ fontWeight: page === "events" ? 'bold' : 'normal' }}>Etkinlikler</button>
+        <button onClick={() => go("add")} style={{ fontWeight: page === "add" ? 'bold' : 'normal' }}>Ekle</button>
       </nav>
 
-      <main>
+      {/* İçerik Alanı */}
+      <main style={{ flex: 1, padding: '2rem', maxWidth: '800px', width: '100%', margin: '0 auto' }}>
+        
+        {/* ANA SAYFA */}
         {page === "home" && (
-          <section className="etkinlik-listesi">
-            <h2>Yaklaşan 2 Etkinlik</h2>
-            <br/>
-            {upcoming.map(renderCard)}
+          <section>
+            <h2>Yaklaşan Etkinlikler</h2>
+            <br />
+            <div className="kartlar">
+              {initialEvents.map(renderCard)}
+            </div>
           </section>
         )}
 
+        {/* TÜM ETKİNLİKLER */}
         {page === "events" && (
-          <section className="etkinlik-listesi">
+          <section>
             <h2>Tüm Etkinlikler</h2>
-            <br/>
-            <div className="filtre-kutusu" style={{ backgroundColor: '#fff', padding: '20px', borderRadius: '8px', marginBottom: '20px', border: '1px solid #ddd' }}>
-              <div style={{ marginBottom: '15px' }}>
-                <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '5px' }}>Etkinlik ara</label>
+            <br />
+            <div style={{ background: '#fff', padding: '15px', borderRadius: '8px', marginBottom: '20px', border: '1px solid #ddd' }}>
+              <div style={{ marginBottom: '10px' }}>
+                <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '5px' }}>Ara</label>
                 <input 
                   type="search" 
                   value={searchText} 
                   onChange={(e) => setSearchText(e.target.value)} 
-                  placeholder="Örn. atölye, kariyer"
-                  style={{ width: '100%', padding: '10px', borderRadius: '4px', border: '1px solid #ccc' }}
+                  placeholder="Örn. atölye, kariyer" 
+                  style={{ width: '100%', padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }}
                 />
               </div>
               <div>
                 <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '5px' }}>Kategori</label>
                 <select 
                   value={category} 
-                  onChange={(e) => setCategory(e.target.value as Category | "")}
-                  style={{ width: '100%', padding: '10px', borderRadius: '4px', border: '1px solid #ccc' }}
+                  onChange={(e) => setCategory(e.target.value)}
+                  style={{ width: '100%', padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }}
                 >
                   <option value="">Tümü</option>
-                  {categories.map(c => (
-                    <option key={c} value={c}>{c}</option>
-                  ))}
+                  {categories.map(c => <option key={c} value={c}>{c}</option>)}
                 </select>
               </div>
             </div>
-            <p style={{ fontWeight: 'bold', color: '#5c3a21', marginBottom: '15px' }}>
-              {filteredEvents.length === 0 ? "Aradığınız kriterlere uygun etkinlik bulunamadı." : `${filteredEvents.length} etkinlik listeleniyor.`}
-            </p>
-            {filteredEvents.map(renderCard)}
+
+            {filteredEvents.length === 0 ? (
+              <p style={{ fontWeight: 'bold', color: 'var(--renk-ana)' }}>Aradığınız kriterlere uygun etkinlik bulunamadı.</p>
+            ) : (
+              <div className="kartlar">
+                {filteredEvents.map(renderCard)}
+              </div>
+            )}
           </section>
         )}
 
+        {/* ETKİNLİK DETAY */}
         {page === "detail" && (
           <section>
-             {!selected && (
-                <div style={{ padding: '20px', backgroundColor: '#fee2e2', color: '#b91c1c', borderRadius: '8px', border: '1px solid #f87171' }}>
-                  <h3>Etkinlik Bulunamadı</h3>
-                  <p>Aradığınız etkinlik sistemde mevcut değil.</p>
-                  <button onClick={() => go("events")} style={{ marginTop: '10px', padding: '8px 16px', cursor: 'pointer' }}>Listeye dön</button>
+            {!selectedEvent ? (
+              <div style={{ padding: '20px', background: '#fee2e2', color: '#b91c1c', borderRadius: '8px' }}>
+                <h3>Etkinlik Bulunamadı</h3>
+                <p>Aradığınız etkinlik sistemde mevcut değil.</p>
+                <button onClick={() => go("events")} style={{ marginTop: '10px' }}>Listeye dön</button>
+              </div>
+            ) : (
+              <article className="detay" style={{ background: '#fff', padding: '30px', borderRadius: '8px', border: '1px solid #ddd' }}>
+                <h2 style={{ fontSize: '28px', color: 'var(--renk-ana)', marginBottom: '20px' }}>{selectedEvent.title}</h2>
+                <div style={{ background: '#f9f9f9', padding: '20px', borderRadius: '8px', marginBottom: '20px' }}>
+                  <p style={{ marginBottom: '10px' }}><strong>Tarih:</strong> {selectedEvent.date}, {selectedEvent.time}</p>
+                  <p style={{ marginBottom: '10px' }}><strong>Yer:</strong> {selectedEvent.location}</p>
+                  <p style={{ marginBottom: '10px' }}><strong>Kategori:</strong> {selectedEvent.category}</p>
+                  <p style={{ marginBottom: '10px' }}><strong>Kontenjan:</strong> {selectedEvent.capacity} kişi</p>
                 </div>
-             )}
-             
-             {selected && (
-                <article className="detay" style={{ backgroundColor: '#fff', padding: '30px', borderRadius: '8px', border: '1px solid #ddd' }}>
-                  <h2 style={{ fontSize: '32px', color: '#5c3a21', marginBottom: '20px' }}>{selected.title}</h2>
-                  
-                  {selected.image && (
-                    <figure style={{ marginBottom: '20px' }}>
-                      <img src={selected.image} alt={`${selected.title} afişi`} style={{ maxWidth: '100%', height: 'auto', borderRadius: '4px' }} />
-                    </figure>
-                  )}
-                  
-                  <div style={{ backgroundColor: '#f9f9f9', padding: '20px', borderRadius: '8px', marginBottom: '20px' }}>
-                    <h3 style={{ marginBottom: '15px', borderBottom: '1px solid #eee', paddingBottom: '10px' }}>Etkinlik Künyesi</h3>
-                    <p style={{ marginBottom: '10px' }}><strong>Tarih:</strong> {selected.date}, {selected.time}</p>
-                    <p style={{ marginBottom: '10px' }}><strong>Yer:</strong> {selected.location}</p>
-                    <p style={{ marginBottom: '10px' }}><strong>Kategori:</strong> {selected.category}</p>
-                    <p style={{ marginBottom: '10px' }}><strong>Kontenjan:</strong> {selected.capacity} kişi</p>
-                  </div>
-
-                  <div style={{ marginBottom: '30px' }}>
-                     <h3 style={{ marginBottom: '10px' }}>Açıklama</h3>
-                     <p>{selected.description}</p>
-                  </div>
-
-                  <div style={{ display: 'flex', gap: '15px' }}>
-                    <button onClick={() => go("events")} style={{ padding: '10px 20px', backgroundColor: '#e2e8f0', color: '#1e293b', border: '1px solid #cbd5e1', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' }}>← Listeye dön</button>
-                    <button onClick={() => go("update", selected.id)} style={{ padding: '10px 20px', backgroundColor: '#5c3a21', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' }}>Bu etkinliği güncelle</button>
-                  </div>
-                </article>
-             )}
+                <div style={{ marginBottom: '30px' }}>
+                  <h3 style={{ marginBottom: '10px' }}>Açıklama</h3>
+                  <p>{selectedEvent.description}</p>
+                </div>
+                <button onClick={() => go("events")}>← Listeye dön</button>
+              </article>
+            )}
           </section>
         )}
 
+        {/* ETKİNLİK EKLE / GÜNCELLE FORMU */}
         {(page === "add" || page === "update") && (
           <section>
-            <h2 style={{ fontSize: '32px', color: '#5c3a21', marginBottom: '10px' }}>
+            <h2 style={{ fontSize: '28px', color: 'var(--renk-ana)', marginBottom: '10px' }}>
               {page === "add" ? "Etkinlik Ekle" : "Etkinlik Güncelle"}
             </h2>
-            <p style={{ color: '#666', marginBottom: '30px' }}>Bu sprintte form sadece görünüm; kayıt yapılmaz.</p>
-
-            <form 
-              className="form" 
-              onSubmit={(e) => e.preventDefault()} 
-              style={{ backgroundColor: '#fff', padding: '30px', borderRadius: '8px', border: '1px solid #ddd', maxWidth: '600px' }}
-            >
+            <p style={{ color: '#666', marginBottom: '20px' }}>Bu sprintte form sadece görünüm; kayıt yapılmaz.</p>
+            
+            <form onSubmit={(e) => e.preventDefault()} style={{ background: '#fff', padding: '30px', borderRadius: '8px', border: '1px solid #ddd' }}>
               <div style={{ marginBottom: '20px' }}>
-                <label htmlFor="title" style={{ display: 'block', fontWeight: 'bold', marginBottom: '8px' }}>Etkinlik Adı</label>
-                <input id="title" type="text" maxLength={80} placeholder="Örn. Kariyer Günleri 2026" style={{ width: '100%', padding: '10px', borderRadius: '4px', border: '1px solid #ccc' }} />
+                <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '5px' }}>Etkinlik Adı</label>
+                <input type="text" placeholder="Örn. Kariyer Günleri 2026" style={{ width: '100%', padding: '8px', border: '1px solid #ccc', borderRadius: '4px' }} />
               </div>
-
               <div style={{ marginBottom: '20px' }}>
-                <label htmlFor="category" style={{ display: 'block', fontWeight: 'bold', marginBottom: '8px' }}>Kategori</label>
-                <select id="category" style={{ width: '100%', padding: '10px', borderRadius: '4px', border: '1px solid #ccc' }}>
+                <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '5px' }}>Kategori</label>
+                <select style={{ width: '100%', padding: '8px', border: '1px solid #ccc', borderRadius: '4px' }}>
                   <option value="">Seçiniz</option>
-                  <option value="Seminer">Seminer</option>
-                  <option value="Atölye">Atölye</option>
-                  <option value="Söyleşi">Söyleşi</option>
-                  <option value="Yarışma">Yarışma</option>
+                  {categories.map(c => <option key={c} value={c}>{c}</option>)}
                 </select>
               </div>
-
               <div style={{ display: 'flex', gap: '20px', marginBottom: '20px' }}>
                 <div style={{ flex: 1 }}>
-                  <label htmlFor="date" style={{ display: 'block', fontWeight: 'bold', marginBottom: '8px' }}>Tarih</label>
-                  <input id="date" type="date" style={{ width: '100%', padding: '10px', borderRadius: '4px', border: '1px solid #ccc' }} />
+                  <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '5px' }}>Tarih</label>
+                  <input type="text" placeholder="gg.aa.yyyy" style={{ width: '100%', padding: '8px', border: '1px solid #ccc', borderRadius: '4px' }} />
                 </div>
                 <div style={{ flex: 1 }}>
-                  <label htmlFor="time" style={{ display: 'block', fontWeight: 'bold', marginBottom: '8px' }}>Saat</label>
-                  <input id="time" type="time" style={{ width: '100%', padding: '10px', borderRadius: '4px', border: '1px solid #ccc' }} />
+                  <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '5px' }}>Saat</label>
+                  <input type="text" placeholder="--:--" style={{ width: '100%', padding: '8px', border: '1px solid #ccc', borderRadius: '4px' }} />
                 </div>
               </div>
-
               <div style={{ marginBottom: '20px' }}>
-                <label htmlFor="location" style={{ display: 'block', fontWeight: 'bold', marginBottom: '8px' }}>Yer</label>
-                <input id="location" type="text" placeholder="Örn. A Blok Konferans Salonu" style={{ width: '100%', padding: '10px', borderRadius: '4px', border: '1px solid #ccc' }} />
+                <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '5px' }}>Yer</label>
+                <input type="text" placeholder="Örn. A Blok Konferans Salonu" style={{ width: '100%', padding: '8px', border: '1px solid #ccc', borderRadius: '4px' }} />
               </div>
-
               <div style={{ marginBottom: '20px' }}>
-                <label htmlFor="capacity" style={{ display: 'block', fontWeight: 'bold', marginBottom: '8px' }}>Kontenjan</label>
-                <input id="capacity" type="number" min={1} style={{ width: '100%', padding: '10px', borderRadius: '4px', border: '1px solid #ccc' }} />
+                <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '5px' }}>Kontenjan</label>
+                <input type="number" placeholder="100" style={{ width: '100%', padding: '8px', border: '1px solid #ccc', borderRadius: '4px' }} />
               </div>
-
-              <div style={{ marginBottom: '30px' }}>
-                <label htmlFor="description" style={{ display: 'block', fontWeight: 'bold', marginBottom: '8px' }}>Açıklama</label>
-                <textarea id="description" rows={5} style={{ width: '100%', padding: '10px', borderRadius: '4px', border: '1px solid #ccc' }}></textarea>
+              <div style={{ marginBottom: '20px' }}>
+                <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '5px' }}>Açıklama</label>
+                <textarea rows={4} placeholder="Etkinlik hakkında bilgi..." style={{ width: '100%', padding: '8px', border: '1px solid #ccc', borderRadius: '4px' }}></textarea>
               </div>
-
-              <button type="submit" style={{ padding: '12px 24px', backgroundColor: '#5c3a21', color: '#fff', border: 'none', borderRadius: '4px', fontSize: '16px', cursor: 'pointer', width: '100%', fontWeight: 'bold' }}>
-                {page === "add" ? "Etkinliği Ekle" : "Değişiklikleri Kaydet"}
-              </button>
+              <button type="submit">{page === "add" ? "Etkinliği Ekle" : "Güncellemeleri Kaydet"}</button>
             </form>
           </section>
         )}
+
       </main>
 
-      <footer className="site-altbilgi">
-        <p>Gülsüm Arıcan · 2416501834 · 2026</p>
+      {/* Sayfa Altı Künye (Öğrenci Numarası ve Ad Soyad) */}
+      <footer style={{ textAlign: 'center', padding: '1.5rem', fontSize: '0.9rem', color: '#555', borderTop: '1px solid #ddd' }}>
+        Gülsüm Arıcan · 2416501834 · 2026
       </footer>
-    </>
+    </div>
   );
 }
-
-export default App;
