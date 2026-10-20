@@ -1,7 +1,8 @@
 :root {
     --no: 2416501834;
-    --renk-ana: hsl(var(--no), 65%, 38%);
-    --renk-zemin: hsl(var(--no), 33%, 97%);
+    --ton: 34; /* mod(2416501834, 360) = 34 — büyük sayı build'de yuvarlandığı için sonucu yazıldı */
+    --renk-ana: hsl(var(--ton) 65% 38%);
+    --renk-zemin: hsl(var(--ton) 30% 97%);
     --font: "Georgia", serif;
     --bosluk: 1rem;
     --kose: 8px;
@@ -98,7 +99,7 @@ footer {
 .detay-konteyner img {
     max-width: 100%;
     height: auto;
-    background-color: #a3cda1;
+    background-color: var(--renk-zemin);
     border-radius: var(--kose);
 }
 
@@ -187,6 +188,4 @@ button {
         flex: 2;
     }
 }
-header.site-baslik {
-  background-color: #a32a2a !important;
-}
+
