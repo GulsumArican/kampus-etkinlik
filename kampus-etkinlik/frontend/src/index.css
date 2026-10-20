@@ -1,1 +1,12 @@
+:root {
+  --no: 2416501834;
+  --ton: calc(var(--no) % 360);
+  --renk-ana: hsl(var(--ton), 65%, 38%);
+  --renk-zemin: hsl(var(--ton), 30%, 97%);
+  --font: Georgia, serif;
+}
 
+body {
+  font-family: var(--font) !important;
+  background-color: var(--renk-zemin);
+}
