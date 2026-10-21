@@ -4,8 +4,12 @@ import "./App.css";
 import { events } from "./data/events";
 import type { CampusEvent, Category } from "./types/campus-event";
 import { searchEvents, filterByCategory, findEventById } from "./utils/filter-events";
+import type { PageName } from "./types/page";
+import Footer from "./components/layout/Footer";
+import Header from "./components/layout/Header";
+import Navigation from "./components/layout/Navigation";
+import EventCard from "./components/events/EventCard";
 
-type PageName = "home" | "events" | "add" | "detail" | "update";
 
 function App() {
   const [page, setPage] = useState<PageName>("home");
@@ -24,89 +28,45 @@ function App() {
   const categories = [...new Set(events.map(e => e.category))];
   const selected = selectedId ? findEventById(events, selectedId) : undefined;
 
-  useEffect(() => {
-    if (page === "detail" && selected) {
-      document.title = `Kampüs Etkinlikleri — ${selected.title}`;
-    } else {
-      document.title = "Kampüs Etkinlikleri";
-    }
-  }, [page, selected]);
+  const pageTitles: Record<PageName, string> = {
+  home: "Kampüs Etkinlikleri",
+  events: "Tüm Etkinlikler",
+  add: "Etkinlik Ekle",
+  detail: "Etkinlik Detayı",
+  update: "Etkinlik Güncelle",
+};
+const title = page === "detail" && selected ? selected.title : pageTitles[page];
+const headerText =
+  page === "home" ? "Fakültedeki seminer, atölye ve söyleşileri tek yerden takip edin."
+  : page === "events" ? "Ekim ayında kampüste düzenlenen etkinlikler."
+  : undefined;
 
-  const menuItems: { id: PageName; label: string }[] = [
-    { id: "home", label: "Ana Sayfa" },
-    { id: "events", label: "Etkinlikler" },
-    { id: "add", label: "Ekle" },
-  ];
+useEffect(() => {
+  document.title = `Kampüs Etkinlikleri — ${title}`;
+}, [title]);
+
+
 
   const upcoming = [...events]
     .sort((a, b) => a.date.localeCompare(b.date))
     .slice(0, 2);
 
-  function renderCard(event: CampusEvent) {
-    return (
-      <article className="kart" key={event.id}>
-        <h2>{event.title}</h2>
-        <span className="kategori-etiketi">{event.category}</span>
-        <p>Tarih: {event.date}, {event.time}</p>
-        <p>Yer: {event.location}</p>
-        <p>Kontenjan: {event.capacity} kişi</p>
-        <p>{event.description}</p>
-        <a
-          href="#"
-          className="detay-link"
-          onClick={(e) => {
-            e.preventDefault();
-            go("detail", event.id);
-          }}
-        >
-          Detayları gör
-        </a>
-      </article>
-    );
-  }
+
 
   return (
     <>
-      <header className="site-baslik">
-        <h1>Kampüs Etkinlikleri</h1>
-        <p>Fakültedeki seminer, atölye ve söyleşileri tek yerden takip edin.</p>
-      </header>
+<Header title={title} text={headerText} />
 
-      <nav className="menu">
-        <ul style={{ display: 'flex', listStyle: 'none', gap: '10px', padding: 0, margin: 0 }}>
-          {menuItems.map((item) => (
-            <li key={item.id}>
-              <a
-                href="#"
-                aria-current={page === item.id ? "page" : undefined}
-                onClick={(e) => {
-                  e.preventDefault();
-                  go(item.id);
-                }}
-                style={{
-                  display: 'inline-block',
-                  padding: '8px 16px',
-                  borderRadius: '4px',
-                  textDecoration: 'none',
-                  color: page === item.id ? 'var(--renk-ana)' : '#fff',
-                  backgroundColor: page === item.id ? '#fff' : 'rgba(255, 255, 255, 0.15)',
-                  fontWeight: 'bold',
-                  border: '1px solid rgba(255,255,255,0.4)'
-                }}
-              >
-                {item.label}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </nav>
+<Navigation current={page} onNavigate={go} />
 
       <main>
         {page === "home" && (
           <section className="etkinlik-listesi">
             <h2>Yaklaşan 2 Etkinlik</h2>
             <br/>
-            {upcoming.map(renderCard)}
+            {upcoming.map((e) => (
+  <EventCard key={e.id} event={e} onShowDetail={(id) => go("detail", id)} />
+))}
           </section>
         )}
 
@@ -142,7 +102,9 @@ function App() {
             <p style={{ fontWeight: 'bold', color: 'var(--renk-ana)', marginBottom: '15px' }}>
               {filteredEvents.length === 0 ? "Aradığınız kriterlere uygun etkinlik bulunamadı." : `${filteredEvents.length} etkinlik listeleniyor.`}
             </p>
-            {filteredEvents.map(renderCard)}
+            {filteredEvents.map((e) => (
+  <EventCard key={e.id} event={e} onShowDetail={(id) => go("detail", id)} />
+))}
           </section>
         )}
 
@@ -250,9 +212,7 @@ function App() {
         )}
       </main>
 
-      <footer className="site-altbilgi">
-        <p>Gülsüm Arıcan · 2416501834 · 2026</p>
-      </footer>
+      <Footer />
     </>
   );
 }
