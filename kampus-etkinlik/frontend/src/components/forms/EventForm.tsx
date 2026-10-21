@@ -34,16 +34,15 @@ function EventForm({ onSubmit }: EventFormProps) {
           </select>
         </div>
 
-        <div style={{ display: "flex", gap: "20px", marginBottom: "20px" }}>
-          <div style={{ flex: 1 }}>
-            <label htmlFor="date" style={labelStyle}>Tarih</label>
-            <input id="date" type="date" style={inputStyle} />
-          </div>
-          <div style={{ flex: 1 }}>
-            <label htmlFor="time" style={labelStyle}>Saat</label>
-            <input id="time" type="time" style={inputStyle} />
-          </div>
-        </div>
+        <div style={{ marginBottom: "20px" }}>
+  <label htmlFor="date" style={labelStyle}>Tarih</label>
+  <input id="date" type="date" style={inputStyle} />
+</div>
+
+<div style={{ marginBottom: "20px" }}>
+  <label htmlFor="time" style={labelStyle}>Saat</label>
+  <input id="time" type="time" style={inputStyle} />
+</div>
 
         <div style={{ marginBottom: "20px" }}>
           <label htmlFor="location" style={labelStyle}>Yer</label>
