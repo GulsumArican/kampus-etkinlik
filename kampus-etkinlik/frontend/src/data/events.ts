@@ -21,7 +21,7 @@ export const events: CampusEvent[] = [
     time: "10:00",
     location: "Bilgisayar Laboratuvarı 2",
     description: "Arduino ile çizgi izleyen robot yapımı, başlangıç seviyesi.",
-    image: "/afis.jpg"
+    
   },
   {
     id: "event-3",
@@ -32,7 +32,7 @@ export const events: CampusEvent[] = [
     time: "15:00",
     location: "Bilgisayar Laboratuvarı 1",
     description: "HTML ve CSS ile ilk kişisel sayfanı yap.",
-    image: "/afis.jpg"
+    
   },
   {
     id: "event-4",
@@ -43,7 +43,7 @@ export const events: CampusEvent[] = [
     time: "13:30",
     location: "B Blok Amfi 3",
     description: "Temel siber güvenlik kavramları ve güncel tehditler.",
-    image: "/afis.jpg"
+    
   },
   {
     id: "event-5",
@@ -54,7 +54,7 @@ export const events: CampusEvent[] = [
     time: "16:00",
     location: "Kültür Merkezi",
     description: "Sektörden uzmanlarla yapay zekanın geleceği üzerine sohbet.",
-    image: "/afis.jpg"
+    
   },
   {
     id: "event-6",
@@ -65,6 +65,6 @@ export const events: CampusEvent[] = [
     time: "09:00",
     location: "İnovasyon Merkezi",
     description: "24 saat sürecek takım tabanlı yazılım geliştirme yarışması.",
-    image: "/afis.jpg"
+    
   }
 ];

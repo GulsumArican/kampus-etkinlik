@@ -1,12 +1,53 @@
 # Kampüs Etkinlikleri Projesi
 
-**Canlı Yayın Adresi (Vercel):** https://kampus-etkinlik-kohl.vercel.app/
+**Canlı Yayın Adresi (Vercel):** https://gulsumarican-frontend.vercel.app
 
 ## Proje Hakkında
 Bu proje, kampüs içerisindeki akademik, seminer, atölye ve söyleşi gibi etkinliklerin tek bir platform üzerinden takip edilmesini sağlayan React tabanlı bir web uygulamasıdır.
 
+## Kurulum
+
+    cd frontend
+    npm install
+    npm run dev
+
+## Route Listesi
+
+| Adres | Sayfa |
+|---|---|
+| `/` | Ana Sayfa |
+| `/events` | Etkinlikler |
+| `/events/:id` | Etkinlik Detayı |
+| `/login` | Giriş |
+| `/register` | Kayıt |
+| `/forgot-password` | Şifremi Unuttum |
+| `/admin` | Yönetim |
+| `/admin/new` | Etkinlik Ekle |
+| `/admin/:id/edit` | Etkinlik Güncelle |
+| `*` | Sayfa Bulunamadı |
+
+## Sprint 6 + Vize Geliştirme Notları (Router, Context ve Yönetim)
+
+- React Router ile 10 sayfa gerçek adreslere bağlandı; menüde `NavLink`, sayfa içinde `Link`, kayıttan sonra `useNavigate` kullanıldı.
+- Detay ve güncelleme sayfaları adresteki id'yi `useParams` ile okuyor; bulunamazsa "Sayfa bulunamadı" gösteriliyor.
+- `EventsContext` ile etkinlik listesi ve ekle/güncelle/sil fonksiyonları tek yerde tutuldu; tüm sayfalar `useEvents()` ile erişiyor.
+- Yönetim sayfasında tablo, Düzenle ve onaylı Sil eklendi; değişiklikler Ana Sayfa ve Etkinlikler'de de görünüyor.
+- Etkinlik formu controlled form oldu; `validateEvent` ile 7 alan doğrulanıyor.
+- Giriş, Kayıt ve Şifremi Unuttum sayfaları form doğrulamasıyla eklendi.
+- Yönetim tablosu telefonda kart görünümüne geçiyor.
+- `vercel.json` ile canlıda sayfa yenilendiğinde de route'lar çalışıyor.
+
+## Sprint 5 Geliştirme Notları (React Bileşenleri)
+
+- Tek büyük App.tsx; Header, Navigation, Footer, EventCard, EventList, EventFilter, EventDetail ve EventForm bileşenlerine bölündü.
+- Bileşenler veriyi props ile alıyor, kullanıcı olaylarını callback ile üst bileşene bildiriyor.
+- Arama ve kategori state'i ortak üst bileşende tutuldu (lifting state).
+- Her bileşenin props tipi interface ile tanımlandı; tarih biçimlendirme `format-date.ts`'e taşındı.
+
+Not: Geliştirme sırasında yapay zekâ desteği alınmıştır.
+
 # Sprint 4 Geliştirme Notları (React, Vite, TypeScript ve State Yönetimi)
-- **Canlı Yayın Adresi:** [Buraya Vercel canlı linkini yapıştır]
+- **Canlı Yayın Adresi:** https://gulsumarican-frontend.vercel.app
 - Proje React, Vite ve TypeScript teknolojilerine taşındı.
 - `useState` ile sayfa yenilenmeden dinamik sekme geçişleri (Ana Sayfa, Etkinlikler, Ekle, Detay, Güncelle) sağlandı.
 - Anlık arama çubuğu ve kategori filtreleme özellikleri React state'leri ile entegre edildi.

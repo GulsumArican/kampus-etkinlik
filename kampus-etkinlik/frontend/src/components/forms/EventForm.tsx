@@ -1,69 +1,94 @@
+import { useState } from "react";
+import type { ChangeEvent, CSSProperties, FormEvent } from "react";
+import type { Category, EventFormData, EventFormErrors } from "../../types/campus-event";
+import { validateEvent } from "../../utils/validate-event";
+
 interface EventFormProps {
-  onSubmit: () => void;
+  initialData: EventFormData;
+  submitText: string;
+  onSubmit: (data: EventFormData) => void;
 }
 
-function EventForm({ onSubmit }: EventFormProps) {
-  const inputStyle = { width: "100%", padding: "10px", borderRadius: "4px", border: "1px solid #ccc" };
-  const labelStyle = { display: "block", fontWeight: "bold", marginBottom: "8px" };
+const categoryOptions: Category[] = ["Seminer", "Atölye", "Söyleşi", "Yarışma"];
+const groupStyle: CSSProperties = { marginBottom: "20px" };
+const labelStyle: CSSProperties = { display: "block", fontWeight: "bold", marginBottom: "8px" };
+const inputStyle: CSSProperties = { width: "100%", padding: "10px", boxSizing: "border-box" };
+
+function EventForm({ initialData, submitText, onSubmit }: EventFormProps) {
+  const [data, setData] = useState<EventFormData>(initialData);
+  const [errors, setErrors] = useState<EventFormErrors>({});
+
+  function handleChange(e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) {
+    setData({ ...data, [e.target.name]: e.target.value });
+  }
+
+  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const found = validateEvent(data);
+    setErrors(found);
+    if (Object.keys(found).length === 0) {
+      onSubmit(data);
+    }
+  }
 
   return (
-    <>
-      <p style={{ color: "#666", marginBottom: "30px" }}>Bu sprintte form sadece görünüm; kayıt yapılmaz.</p>
+    <form className="form form-alani" onSubmit={handleSubmit} noValidate>
+      <div style={groupStyle}>
+        <label htmlFor="title" style={labelStyle}>Etkinlik Adı</label>
+        <input id="title" name="title" type="text" maxLength={80} value={data.title} onChange={handleChange}
+          aria-invalid={errors.title ? true : undefined} style={inputStyle} />
+        {errors.title && <span className="hata-metni">{errors.title}</span>}
+      </div>
 
-      <form
-        className="form"
-        onSubmit={(e) => {
-          e.preventDefault();
-          onSubmit();
-        }}
-        style={{ backgroundColor: "#fff", padding: "30px", borderRadius: "8px", border: "1px solid #ddd", maxWidth: "600px" }}
-      >
-        <div style={{ marginBottom: "20px" }}>
-          <label htmlFor="title" style={labelStyle}>Etkinlik Adı</label>
-          <input id="title" type="text" maxLength={80} placeholder="Örn. Kariyer Günleri 2026" style={inputStyle} />
-        </div>
+      <div style={groupStyle}>
+        <label htmlFor="category" style={labelStyle}>Kategori</label>
+        <select id="category" name="category" value={data.category} onChange={handleChange}
+          aria-invalid={errors.category ? true : undefined} style={inputStyle}>
+          <option value="">Seçiniz</option>
+          {categoryOptions.map((c) => (
+            <option key={c} value={c}>{c}</option>
+          ))}
+        </select>
+        {errors.category && <span className="hata-metni">{errors.category}</span>}
+      </div>
 
-        <div style={{ marginBottom: "20px" }}>
-          <label htmlFor="category" style={labelStyle}>Kategori</label>
-          <select id="category" style={inputStyle}>
-            <option value="">Seçiniz</option>
-            <option value="Seminer">Seminer</option>
-            <option value="Atölye">Atölye</option>
-            <option value="Söyleşi">Söyleşi</option>
-            <option value="Yarışma">Yarışma</option>
-          </select>
-        </div>
+      <div style={groupStyle}>
+        <label htmlFor="date" style={labelStyle}>Tarih</label>
+        <input id="date" name="date" type="date" value={data.date} onChange={handleChange}
+          aria-invalid={errors.date ? true : undefined} style={inputStyle} />
+        {errors.date && <span className="hata-metni">{errors.date}</span>}
+      </div>
 
-        <div style={{ marginBottom: "20px" }}>
-  <label htmlFor="date" style={labelStyle}>Tarih</label>
-  <input id="date" type="date" style={inputStyle} />
-</div>
+      <div style={groupStyle}>
+        <label htmlFor="time" style={labelStyle}>Saat</label>
+        <input id="time" name="time" type="time" value={data.time} onChange={handleChange}
+          aria-invalid={errors.time ? true : undefined} style={inputStyle} />
+        {errors.time && <span className="hata-metni">{errors.time}</span>}
+      </div>
 
-<div style={{ marginBottom: "20px" }}>
-  <label htmlFor="time" style={labelStyle}>Saat</label>
-  <input id="time" type="time" style={inputStyle} />
-</div>
+      <div style={groupStyle}>
+        <label htmlFor="location" style={labelStyle}>Yer</label>
+        <input id="location" name="location" type="text" value={data.location} onChange={handleChange}
+          aria-invalid={errors.location ? true : undefined} style={inputStyle} />
+        {errors.location && <span className="hata-metni">{errors.location}</span>}
+      </div>
 
-        <div style={{ marginBottom: "20px" }}>
-          <label htmlFor="location" style={labelStyle}>Yer</label>
-          <input id="location" type="text" placeholder="Örn. A Blok Konferans Salonu" style={inputStyle} />
-        </div>
+      <div style={groupStyle}>
+        <label htmlFor="capacity" style={labelStyle}>Kontenjan</label>
+        <input id="capacity" name="capacity" type="number" value={data.capacity} onChange={handleChange}
+          aria-invalid={errors.capacity ? true : undefined} style={inputStyle} />
+        {errors.capacity && <span className="hata-metni">{errors.capacity}</span>}
+      </div>
 
-        <div style={{ marginBottom: "20px" }}>
-          <label htmlFor="capacity" style={labelStyle}>Kontenjan</label>
-          <input id="capacity" type="number" min={1} style={inputStyle} />
-        </div>
+      <div style={groupStyle}>
+        <label htmlFor="description" style={labelStyle}>Açıklama</label>
+        <textarea id="description" name="description" rows={5} value={data.description} onChange={handleChange}
+          aria-invalid={errors.description ? true : undefined} style={inputStyle} />
+        {errors.description && <span className="hata-metni">{errors.description}</span>}
+      </div>
 
-        <div style={{ marginBottom: "30px" }}>
-          <label htmlFor="description" style={labelStyle}>Açıklama</label>
-          <textarea id="description" rows={5} style={inputStyle} />
-        </div>
-
-        <button type="submit" style={{ padding: "12px 24px", backgroundColor: "var(--renk-ana)", color: "#fff", border: "none", borderRadius: "4px", fontSize: "16px", cursor: "pointer", width: "100%", fontWeight: "bold" }}>
-          Kaydet
-        </button>
-      </form>
-    </>
+      <button type="submit">{submitText}</button>
+    </form>
   );
 }
 
