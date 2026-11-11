@@ -7,7 +7,15 @@ Bu proje, kampüs içerisindeki akademik, seminer, atölye ve söyleşi gibi etk
 
 ## Kurulum
 
+Frontend:
+
     cd frontend
+    npm install
+    npm run dev
+
+Backend (API, http://localhost:3000):
+
+    cd backend
     npm install
     npm run dev
 
@@ -25,6 +33,16 @@ Bu proje, kampüs içerisindeki akademik, seminer, atölye ve söyleşi gibi etk
 | `/admin/new` | Etkinlik Ekle |
 | `/admin/:id/edit` | Etkinlik Güncelle |
 | `*` | Sayfa Bulunamadı |
+
+## Sprint 7 Geliştirme Notları (Express REST API)
+
+- Frontend'in yanına ayrı `backend/` klasöründe Node.js + Express sunucusu eklendi.
+- `app.js` uygulamayı ve middleware'leri (cors, express.json) kuruyor, `server.js` `.env`'deki portu dinliyor.
+- Route (`routes/event-routes.js`) ve controller (`controllers/event-controller.js`) ayrı dosyalarda.
+- Endpointler: GET /health, GET /events, GET /events/:id (yoksa 404), POST /events (201, eksik veride 400).
+- REST sözleşmesi `backend/README.md`'de, 6 test isteği `backend/requests/kampus-api.json`'da.
+
+Not: Geliştirme sırasında yapay zekâ desteği alınmıştır.
 
 ## Sprint 6 + Vize Geliştirme Notları (Router, Context ve Yönetim)
 
