@@ -34,6 +34,16 @@ Backend (API, http://localhost:3000):
 | `/admin/:id/edit` | Etkinlik Güncelle |
 | `*` | Sayfa Bulunamadı |
 
+## Sprint 8 Geliştirme Notları (MongoDB ve Mongoose)
+
+- Bellekteki dizi yerine veriler MongoDB Atlas'ta (`kampus` veritabanı, `events` koleksiyonu) tutuluyor.
+- Bağlantı `src/config/database.js`'te; adres `.env`'deki `MONGODB_URI`'den okunuyor, sunucu önce veritabanına bağlanıp sonra başlıyor.
+- `Event` schema'sında required, trim, minlength/maxlength, enum, min ve timestamps kuralları var.
+- `npm run seed` önce koleksiyonu silip 6 etkinlik ekliyor; kaç kez çalışırsa çalışsın 6 kayıt kalıyor.
+- Controller'lar async/await ile `Event.find`, `findById` ve `create` kullanıyor; geçersiz id 404, doğrulama hatası 400, beklenmeyen hata 500 dönüyor ve sunucu çökmüyor.
+
+Not: Geliştirme sırasında yapay zekâ desteği alınmıştır.
+
 ## Sprint 7 Geliştirme Notları (Express REST API)
 
 - Frontend'in yanına ayrı `backend/` klasöründe Node.js + Express sunucusu eklendi.
