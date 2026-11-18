@@ -2,9 +2,10 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "",
-  "scripts": {
+    "scripts": {
     "dev": "node --watch src/server.js",
-    "start": "node src/server.js"
+    "start": "node src/server.js",
+    "seed": "node src/seed.js"
   },
   "keywords": [],
   "author": "",
@@ -13,6 +14,7 @@
   "dependencies": {
     "cors": "^2.8.6",
     "dotenv": "^18.0.10",
-    "express": "^5.3.0"
+    "express": "^5.3.0",
+    "mongoose": "^9.12.2"
   }
 }
