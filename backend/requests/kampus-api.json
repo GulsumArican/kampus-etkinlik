@@ -12,9 +12,13 @@
         "url": {
           "raw": "http://localhost:3000/health",
           "protocol": "http",
-          "host": ["localhost"],
+          "host": [
+            "localhost"
+          ],
           "port": "3000",
-          "path": ["health"]
+          "path": [
+            "health"
+          ]
         }
       },
       "response": []
@@ -27,9 +31,13 @@
         "url": {
           "raw": "http://localhost:3000/events",
           "protocol": "http",
-          "host": ["localhost"],
+          "host": [
+            "localhost"
+          ],
           "port": "3000",
-          "path": ["events"]
+          "path": [
+            "events"
+          ]
         }
       },
       "response": []
@@ -40,11 +48,16 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "http://localhost:3000/events/event-2",
+          "raw": "http://localhost:3000/events/6afd524dffcb403a16c065fb",
           "protocol": "http",
-          "host": ["localhost"],
+          "host": [
+            "localhost"
+          ],
           "port": "3000",
-          "path": ["events", "event-2"]
+          "path": [
+            "events",
+            "6afd524dffcb403a16c065fb"
+          ]
         }
       },
       "response": []
@@ -57,9 +70,14 @@
         "url": {
           "raw": "http://localhost:3000/events/yok",
           "protocol": "http",
-          "host": ["localhost"],
+          "host": [
+            "localhost"
+          ],
           "port": "3000",
-          "path": ["events", "yok"]
+          "path": [
+            "events",
+            "yok"
+          ]
         }
       },
       "response": []
@@ -69,19 +87,30 @@
       "request": {
         "method": "POST",
         "header": [
-          { "key": "Content-Type", "value": "application/json" }
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
         ],
         "body": {
           "mode": "raw",
           "raw": "{\n  \"title\": \"Git Atölyesi\",\n  \"category\": \"Atölye\",\n  \"capacity\": 30,\n  \"date\": \"2026-12-01\",\n  \"time\": \"14:00\",\n  \"location\": \"Bilgisayar Laboratuvarı 1\",\n  \"description\": \"Git ve GitHub ile ilk adımlar.\"\n}",
-          "options": { "raw": { "language": "json" } }
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
         },
         "url": {
           "raw": "http://localhost:3000/events",
           "protocol": "http",
-          "host": ["localhost"],
+          "host": [
+            "localhost"
+          ],
           "port": "3000",
-          "path": ["events"]
+          "path": [
+            "events"
+          ]
         }
       },
       "response": []
@@ -91,19 +120,30 @@
       "request": {
         "method": "POST",
         "header": [
-          { "key": "Content-Type", "value": "application/json" }
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
         ],
         "body": {
           "mode": "raw",
           "raw": "{\n  \"title\": \"Git Atölyesi\"\n}",
-          "options": { "raw": { "language": "json" } }
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
         },
         "url": {
           "raw": "http://localhost:3000/events",
           "protocol": "http",
-          "host": ["localhost"],
+          "host": [
+            "localhost"
+          ],
           "port": "3000",
-          "path": ["events"]
+          "path": [
+            "events"
+          ]
         }
       },
       "response": []
