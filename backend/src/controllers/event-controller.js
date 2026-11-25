@@ -8,11 +8,17 @@ function notFound(res) {
   return res.status(404).json({ error: { message: "Event not found" } });
 }
 
-// GET /events (?category=Atölye isteğe bağlı)
+// GET /events (?search= ve ?category= isteğe bağlı)
 export async function getEvents(req, res, next) {
   try {
-    const filter = req.query.category
-      ? { category: req.query.category } : {};
+    const { category, search } = req.query;
+    const filter = {};
+    if (category) filter.category = category;
+    if (search) {
+      // ( * ? gibi işaretler aramayı bozmasın
+      const guvenli = search.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      filter.title = { $regex: guvenli, $options: "i" };
+    }
     const events = await Event.find(filter).sort({ date: 1 });
     res.json(events);
   } catch (err) {
@@ -73,7 +79,6 @@ export async function updateEvent(req, res, next) {
     next(err);
   }
 }
-
 
 // DELETE /events/:id (204, gövde yok)
 export async function deleteEvent(req, res, next) {
