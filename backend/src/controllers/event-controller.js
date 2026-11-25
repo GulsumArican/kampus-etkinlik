@@ -73,3 +73,16 @@ export async function updateEvent(req, res, next) {
     next(err);
   }
 }
+
+
+// DELETE /events/:id (204, gövde yok)
+export async function deleteEvent(req, res, next) {
+  try {
+    if (!mongoose.isValidObjectId(req.params.id)) return notFound(res);
+    const event = await Event.findByIdAndDelete(req.params.id);
+    if (!event) return notFound(res); // ikinci silme de buraya
+    res.status(204).end();
+  } catch (err) {
+    next(err);
+  }
+}
